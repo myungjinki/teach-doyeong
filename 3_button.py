@@ -12,11 +12,17 @@ class ButtonDemo:
         self.label = Label(master, textvariable=self.label_text)
         self.label.pack()
 
-        self.button = Button(master, text="Click me!", command=self.update_text)
+        self.button_text = StringVar()
+        self.button_text.set("Click me!")
+
+        self.button = Button(
+            master, textvariable=self.button_text, command=self.update_text
+        )
         self.button.pack()
 
     def update_text(self):
         self.label_text.set("Button clicked")
+        self.button_text.set(f"[{self.button_text.get()}]")
 
 
 root = Tk()
