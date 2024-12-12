@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @keyframes abc {
+            from {
+                transform: rotateZ(0deg);
+            }
+            to {
+                transform: rotateZ(360deg);
+            }
+        }
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: grey;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            width: 60px;
+            height: 30px;
+            color: white;
+            animation: abc 1s linear infinite;
+        }
+        div:hover {
+            background-color: tomato;
+        }
+        div:active {
+            transform: rotateZ(360deg);
+        }
+    </style>
+</head>
+<body>
+    <div>Button</div>
+</body>
+</html>
