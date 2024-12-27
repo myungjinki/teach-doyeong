@@ -31,3 +31,18 @@ opSum.addEventListener("click", e => {
 opEq.addEventListener("click", e => {
 	result.textContent = eval("console.log('hi')");
 });
+
+document.addEventListener("keydown", event => {
+	const keyName = event.key;
+	const nums = "0123456789+-*/".split("").map(num => "" + num);
+
+	if (nums.findIndex(value => value === keyName) !== -1) {
+		result.textContent += keyName;
+	}
+
+	if (keyName === "Backspace") {
+		result.textContent = result.textContent.slice(0, result.textContent.length - 1);
+	} else if (keyName === "=") {
+		result.textContent = eval(result.textContent);
+	}
+});
