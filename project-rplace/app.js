@@ -1,6 +1,6 @@
 const CANVAS_WIDTH = 500;
 const CANVAS_HEIGHT = 500;
-const DELTA = 10;
+const DELTA = 20;
 
 const canvas = document.querySelector("canvas");
 
@@ -10,8 +10,10 @@ canvas.height = CANVAS_HEIGHT;
 const ctx = canvas.getContext("2d");
 
 function handleMouseDown(event) {
-	const { offsetX, offsetY } = event;
-	ctx.fillRect(offsetX, offsetY, 1, 1);
+	let { offsetX, offsetY } = event;
+	offsetX -= offsetX % DELTA;
+	offsetY -= offsetY % DELTA;
+	ctx.fillRect(offsetX, offsetY, DELTA, DELTA);
 }
 
 ctx.strokeStyle = "rgba(255, 0, 0, 1)";
@@ -37,4 +39,12 @@ canvas.addEventListener("mousedown", handleMouseDown);
  *
  * 1. 픽셀 간의 위치가 확실하게 지정이 되는가?
  * 2. 그렇다면 라인 색깔은 어떻게 할까?
+ */
+
+/**
+ * 추가할 점
+ *
+ * 1. 색깔 추가하기
+ * 2. 배포하기
+ * 3. 서버
  */
