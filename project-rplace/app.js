@@ -18,21 +18,48 @@ function handleMouseDown(event) {
 
 ctx.strokeStyle = "rgba(255, 0, 0, 1)";
 
-for (let x = 0; x < CANVAS_WIDTH / DELTA; x++) {
+for (let i = 0; i <= CANVAS_WIDTH; i += DELTA) {
 	ctx.beginPath();
-	ctx.moveTo(0, x * DELTA);
-	ctx.lineTo(CANVAS_WIDTH, x * DELTA);
+	ctx.moveTo(i, 0);
+	ctx.lineTo(i, CANVAS_HEIGHT);
 	ctx.stroke();
 }
 
-for (let y = 0; y < CANVAS_HEIGHT / DELTA; y++) {
+for (let i = 0; i <= CANVAS_HEIGHT; i += DELTA) {
 	ctx.beginPath();
-	ctx.moveTo(y * DELTA, 0);
-	ctx.lineTo(y * DELTA, CANVAS_HEIGHT);
+	ctx.moveTo(0, i);
+	ctx.lineTo(CANVAS_WIDTH, i);
 	ctx.stroke();
 }
 
 canvas.addEventListener("mousedown", handleMouseDown);
+
+// https://lospec.com/palette-list/r-place
+const palette = [
+	{ className: ".color_FFFFFF", color: "#FFFFFF" },
+	{ className: ".color_E4E4E4", color: "#E4E4E4" },
+	{ className: ".color_888888", color: "#888888" },
+	{ className: ".color_222222", color: "#222222" },
+	{ className: ".color_FFA7D1", color: "#FFA7D1" },
+	{ className: ".color_E50000", color: "#E50000" },
+	{ className: ".color_E59500", color: "#E59500" },
+	{ className: ".color_A06A42", color: "#A06A42" },
+	{ className: ".color_E5D900", color: "#E5D900" },
+	{ className: ".color_94E044", color: "#94E044" },
+	{ className: ".color_02BE01", color: "#02BE01" },
+	{ className: ".color_00D3DD", color: "#00D3DD" },
+	{ className: ".color_0083C7", color: "#0083C7" },
+	{ className: ".color_0000EA", color: "#0000EA" },
+	{ className: ".color_CF6EE4", color: "#CF6EE4" },
+	{ className: ".color_820080", color: "#820080" },
+];
+
+palette.forEach(({ className, color }) => {
+	const element = document.querySelector(className);
+	element.addEventListener("click", () => {
+		ctx.fillStyle = color;
+	});
+});
 
 /**
  * 궁금한점
