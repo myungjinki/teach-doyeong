@@ -9,12 +9,35 @@ canvas.height = CANVAS_HEIGHT;
 
 const ctx = canvas.getContext("2d");
 
+function drawPixel(x, y, color) {
+	ctx.fillStyle = color;
+	x -= x % DELTA;
+	y -= y % DELTA;
+	ctx.fillRect(x, y, DELTA, DELTA);
+	console.log(x, y, color);
+}
+
 function handleMouseDown(event) {
 	let { offsetX, offsetY } = event;
 	offsetX -= offsetX % DELTA;
 	offsetY -= offsetY % DELTA;
 	ctx.fillRect(offsetX, offsetY, DELTA, DELTA);
 }
+
+async function getData() {
+	const response = await fetch("http://localhost:3001/");
+	const data = await response.json();
+	return data;
+}
+
+async function init() {
+	const data = await getData();
+
+	drawPixel(data[0].x, data[0].y, data[0].color);
+	drawPixel(data[1].x, data[1].y, data[1].color);
+}
+
+init();
 
 ctx.strokeStyle = "rgba(255, 0, 0, 1)";
 
