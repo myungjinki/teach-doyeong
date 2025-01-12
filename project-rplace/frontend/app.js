@@ -24,21 +24,6 @@ function handleMouseDown(event) {
 	ctx.fillRect(offsetX, offsetY, DELTA, DELTA);
 }
 
-async function getData() {
-	const response = await fetch("http://localhost:3001/");
-	const data = await response.json();
-	return data;
-}
-
-async function init() {
-	const data = await getData();
-
-	drawPixel(data[0].x, data[0].y, data[0].color);
-	drawPixel(data[1].x, data[1].y, data[1].color);
-}
-
-init();
-
 ctx.strokeStyle = "rgba(255, 0, 0, 1)";
 
 for (let i = 0; i <= CANVAS_WIDTH; i += DELTA) {
@@ -98,3 +83,18 @@ palette.forEach(({ className, color }) => {
  * 2. 배포하기
  * 3. 서버
  */
+
+async function getData() {
+	const response = await fetch("http://localhost:3001/");
+	const data = await response.json();
+	return data;
+}
+
+async function init() {
+	const data = await getData();
+
+	drawPixel(data[0].x, data[0].y, data[0].color);
+	drawPixel(data[1].x, data[1].y, data[1].color);
+}
+
+init();
