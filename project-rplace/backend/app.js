@@ -3,23 +3,25 @@ const cors = require("cors");
 
 const app = express();
 const port = 3001;
+let pixels = [];
 
-app.use(cors());
+app.use(
+	cors({
+		origin: "*",
+	})
+);
+
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.get("/", (req, res) => {
-	const data = [
-		{
-			x: 1,
-			y: 1,
-			color: "red",
-		},
-		{
-			x: 25,
-			y: 25,
-			color: "blue",
-		},
-	];
-	res.send(data);
+	console.log(pixels);
+	res.send(pixels);
+});
+
+app.post("/", (req, res) => {
+	pixels.push(req.body);
+	res.send(req.body);
 });
 
 app.listen(port, () => {

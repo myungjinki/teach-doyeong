@@ -9,19 +9,14 @@ canvas.height = CANVAS_HEIGHT;
 
 const ctx = canvas.getContext("2d");
 
-function drawPixel(x, y, color) {
-	ctx.fillStyle = color;
-	x -= x % DELTA;
-	y -= y % DELTA;
-	ctx.fillRect(x, y, DELTA, DELTA);
-	console.log(x, y, color);
-}
-
 function handleMouseDown(event) {
 	let { offsetX, offsetY } = event;
 	offsetX -= offsetX % DELTA;
 	offsetY -= offsetY % DELTA;
 	ctx.fillRect(offsetX, offsetY, DELTA, DELTA);
+
+	// 서버로 픽셀 정보 전송
+	postPixel(offsetX, offsetY, ctx.fillStyle);
 }
 
 ctx.strokeStyle = "rgba(255, 0, 0, 1)";
@@ -84,17 +79,38 @@ palette.forEach(({ className, color }) => {
  * 3. 서버
  */
 
-async function getData() {
+async function getPixels() {
 	const response = await fetch("http://localhost:3001/");
 	const data = await response.json();
 	return data;
 }
 
-async function init() {
-	const data = await getData();
+async function postPixel(x, y, color) {
+	pixel = {
+		x,
+		y,
+		color,
+	};
+	const response = await fetch("http://localhost:3001/", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(pixel),
+	});
+	const data = await response.json();
+}
 
-	drawPixel(data[0].x, data[0].y, data[0].color);
-	drawPixel(data[1].x, data[1].y, data[1].color);
+function drawPixel(x, y, color) {
+	ctx.fillStyle = color;
+	x -= x % DELTA;
+	y -= y % DELTA;
+	ctx.fillRect(x, y, DELTA, DELTA);
+}
+
+async function init() {
+	const data = await getPixels();
+	data.forEach(({ x, y, color }) => drawPixel(x, y, color));
 }
 
 init();
