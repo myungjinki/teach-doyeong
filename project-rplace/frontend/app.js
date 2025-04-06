@@ -8,15 +8,16 @@ canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 
 const ctx = canvas.getContext("2d");
+let myColor;
 
 function handleMouseDown(event) {
 	let { offsetX, offsetY } = event;
 	offsetX -= offsetX % DELTA;
 	offsetY -= offsetY % DELTA;
+	ctx.fillStyle = myColor;
 	ctx.fillRect(offsetX, offsetY, DELTA, DELTA);
-
 	// 서버로 픽셀 정보 전송
-	postPixel(offsetX, offsetY, ctx.fillStyle);
+	postPixel(offsetX, offsetY, myColor);
 }
 
 ctx.strokeStyle = "rgba(255, 0, 0, 1)";
@@ -60,27 +61,12 @@ const palette = [
 palette.forEach(({ className, color }) => {
 	const element = document.querySelector(className);
 	element.addEventListener("click", () => {
-		ctx.fillStyle = color;
+		myColor = color;
 	});
 });
 
-/**
- * 궁금한점
- *
- * 1. 픽셀 간의 위치가 확실하게 지정이 되는가?
- * 2. 그렇다면 라인 색깔은 어떻게 할까?
- */
-
-/**
- * 추가할 점
- *
- * 1. 색깔 추가하기
- * 2. 배포하기
- * 3. 서버
- */
-
 async function getPixels() {
-	const response = await fetch("http://localhost:3001/");
+	const response = await fetch("http://43.201.25.111:3001/");
 	const data = await response.json();
 	return data;
 }
@@ -91,7 +77,7 @@ async function postPixel(x, y, color) {
 		y,
 		color,
 	};
-	const response = await fetch("http://localhost:3001/", {
+	const response = await fetch("http://43.201.25.111:3001/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -99,6 +85,7 @@ async function postPixel(x, y, color) {
 		body: JSON.stringify(pixel),
 	});
 	const data = await response.json();
+	console.log(data);
 }
 
 function drawPixel(x, y, color) {
@@ -110,7 +97,9 @@ function drawPixel(x, y, color) {
 
 async function init() {
 	const data = await getPixels();
-	data.forEach(({ x, y, color }) => drawPixel(x, y, color));
+	data.forEach(pixel => drawPixel(pixel.x, pixel.y, pixel.color));
 }
 
 init();
+
+setInterval(init, 100);
