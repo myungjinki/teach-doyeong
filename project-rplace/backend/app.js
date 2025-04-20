@@ -5,11 +5,7 @@ const app = express();
 const port = 3001;
 let pixels = [];
 
-app.use(
-	cors({
-		origin: "*",
-	})
-);
+app.use(cors());
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
