@@ -66,7 +66,7 @@ palette.forEach(({ className, color }) => {
 });
 
 async function getPixels() {
-	const response = await fetch("http://54.226.164.53:3001/");
+	const response = await fetch("https://54.226.164.53:3001/");
 	const data = await response.json();
 	return data;
 }
@@ -77,7 +77,7 @@ async function postPixel(x, y, color) {
 		y,
 		color,
 	};
-	const response = await fetch("http://54.226.164.53:3001/", {
+	const response = await fetch("https://54.226.164.53:3001/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
